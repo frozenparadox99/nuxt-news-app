@@ -74,9 +74,13 @@
 
 <script>
 export default {
-  async asyncData({ app }) {
-    const topHeadlines = await app.$axios.$get('/api/top-headlines?country=us')
-    return { headlines: topHeadlines.articles }
+  async fetch({ store }) {
+    await store.dispatch('loadHeadlines', '/api/top-headlines?country=us')
+  },
+  computed: {
+    headlines() {
+      return this.$store.getters.headlines
+    }
   }
 }
 </script>
