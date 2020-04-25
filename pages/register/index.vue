@@ -1,5 +1,73 @@
 <template>
-  <p>
-    Register
-  </p>
+  <div class="md-layout md-alignment-center-center" style="height: 100vh;">
+    <md-card class="md-layout-item md-size-50">
+      <md-card-header>
+        <div class="md-title">Register</div>
+      </md-card-header>
+
+      <!-- Register Form -->
+      <form>
+        <md-card-content>
+          <md-field md-clearable>
+            <label for="email">Email</label>
+            <md-input
+              :disabled="loading"
+              type="email"
+              name="email"
+              id="email"
+              autocomplete="email"
+              v-model="form.email"
+            />
+            <span class="md-error" v-if="!$v.form.email.required"
+              >The email is required</span
+            >
+            <span class="md-error" v-else-if="!$v.form.email.email"
+              >Invalid email</span
+            >
+          </md-field>
+
+          <md-field>
+            <label for="password">Password</label>
+            <md-input
+              :disabled="loading"
+              type="password"
+              name="password"
+              id="password"
+              autocomplete="password"
+              v-model="form.password"
+            />
+            <span class="md-error" v-if="!$v.form.password.required"
+              >The password is required</span
+            >
+            <span class="md-error" v-else-if="!$v.form.password.minLength"
+              >Password too short</span
+            >
+            <span class="md-error" v-else-if="!$v.form.password.maxLength"
+              >Password too long</span
+            >
+          </md-field>
+        </md-card-content>
+
+        <md-card-actions>
+          <md-button @click="$router.push('/login')">Go to Login</md-button>
+          <md-button
+            class="md-primary md-raised"
+            type="submit"
+            :disabled="loading"
+            >Submit</md-button
+          >
+        </md-card-actions>
+      </form>
+
+      <!-- <md-snackbar :md-active.sync="isAuthenticated">{{form.email}} was successfully registered!</md-snackbar> -->
+    </md-card>
+
+    <!-- Back Button -->
+    <md-button
+      class="md-fixed md-fab-bottom-right md-fab md-primary"
+      @click="$router.go(-1)"
+    >
+      <md-icon>arrow_back</md-icon>
+    </md-button>
+  </div>
 </template>

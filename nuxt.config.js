@@ -70,6 +70,11 @@ export default {
     '/api/': {
       target: 'https://newsapi.org/v2/',
       pathRewrite: { '^/api/': '' }
+    },
+    '/register/': {
+      target:
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDyJmbUMwZUWbeA9XaU00WPOvq4KZnOzY4',
+      pathRewrite: { '^/register/': '' }
     }
   },
   env: {
