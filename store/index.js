@@ -37,10 +37,15 @@ const createStore = () => {
         try {
           commit('setLoading', true)
           const authUserData = await this.$axios.$post(
-            '/register/',
-            userPayload
+            `/${userPayload.action}/`,
+            {
+              email: userPayload.email,
+              password: userPayload.password,
+              returnSecureToken: userPayload.returnSecureToken
+            }
           )
           console.log(authUserData)
+          commit('setToken', authUserData)
           commit('setLoading', false)
         } catch (err) {
           console.error(err)

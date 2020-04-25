@@ -78,7 +78,7 @@ export default {
     }
   },
   env: {
-    NEWS_API_KEY: '9dec7b2421594fd78f9dd2fb1ce4fef9'
+    NEWS_API_KEY: '5cfdbb5416bc457eb73d2ebc172afb4b'
   },
   /*
    ** Build configuration
