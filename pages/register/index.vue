@@ -6,7 +6,7 @@
       </md-card-header>
 
       <!-- Register Form -->
-      <form>
+      <form @submit.prevent="registerUser">
         <md-card-content>
           <md-field md-clearable>
             <label for="email">Email</label>
@@ -71,3 +71,23 @@
     </md-button>
   </div>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    form: {
+      email: '',
+      password: ''
+    }
+  }),
+  methods: {
+    async registerUser() {
+      await this.$store.dispatch('authenticateUser', {
+        email: this.form.email,
+        password: this.form.password,
+        returnSecureToken: true
+      })
+    }
+  }
+}
+</script>
