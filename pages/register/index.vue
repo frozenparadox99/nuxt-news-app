@@ -59,7 +59,9 @@
         </md-card-actions>
       </form>
 
-      <!-- <md-snackbar :md-active.sync="isAuthenticated">{{form.email}} was successfully registered!</md-snackbar> -->
+      <md-snackbar :md-active.sync="isAuthenticated"
+        >{{ form.email }} was successfully registered!</md-snackbar
+      >
     </md-card>
 
     <!-- Back Button -->
@@ -80,6 +82,21 @@ export default {
       password: ''
     }
   }),
+  computed: {
+    loading() {
+      return this.$store.getters.loading
+    },
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated
+    }
+  },
+  watch: {
+    isAuthenticated(value) {
+      if (value) {
+        setTimeout(() => this.$router.push('/'), 2000)
+      }
+    }
+  },
   methods: {
     async registerUser() {
       await this.$store.dispatch('authenticateUser', {
