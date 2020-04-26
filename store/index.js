@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
 import md5 from 'md5'
+import db from '~/plugins/firestore'
 
 const createStore = () => {
   return new Vuex.Store({
@@ -55,6 +56,10 @@ const createStore = () => {
             authUserData.email
           )}?d=identicon`
           const user = { email: authUserData.email, avatar }
+          await db
+            .collection('users')
+            .doc(userPayload.email)
+            .set(user)
           commit('setUser', user)
           commit('setToken', authUserData)
           commit('setLoading', false)

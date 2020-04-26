@@ -44,7 +44,8 @@ export default {
     { src: '~/plugins/vue-material' },
     {
       src: '~/plugins/axios'
-    }
+    },
+    { src: '~/plugins/firestore' }
   ],
   /*
    ** Nuxt.js dev-modules
