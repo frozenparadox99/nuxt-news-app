@@ -48,3 +48,16 @@ export const getUserFromLocalStorage = () => {
     return { jwt, expiresIn, user, avatar }
   }
 }
+
+export const clearUserData = () => {
+  if (!process.server) {
+    localStorage.removeItem('jwt')
+    localStorage.removeItem('expiresIn')
+    localStorage.removeItem('user')
+    localStorage.removeItem('avatar')
+  }
+  Cookie.remove('jwt')
+  Cookie.remove('expiresIn')
+  Cookie.remove('user')
+  Cookie.remove('avatar')
+}

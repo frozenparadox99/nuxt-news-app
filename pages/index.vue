@@ -193,6 +193,9 @@ export default {
     },
     changeCountry(country) {
       this.$store.commit('setCountry', country)
+    },
+    logoutUser() {
+      this.$store.dispatch('logoutUser')
     }
   }
 }
