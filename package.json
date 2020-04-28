@@ -17,6 +17,7 @@
     "js-cookie": "^2.2.1",
     "md5": "^2.2.1",
     "nuxt": "^2.0.0",
+    "slugify": "^1.4.0",
     "vue-material": "^1.0.0-beta-12",
     "vuelidate": "^0.7.5"
   },
