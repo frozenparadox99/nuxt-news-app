@@ -24,6 +24,24 @@
         <md-card-content>{{ headline.content }}</md-card-content>
       </md-card>
 
+      <!-- Comment Form -->
+      <form @submit.prevent="sendComment">
+        <md-field>
+          <label>Enter your comment</label>
+          <md-textarea
+            v-model="text"
+            :disabled="loading || !user"
+          ></md-textarea>
+          <md-icon>description</md-icon>
+        </md-field>
+        <md-button
+          class="md-primary md-raised"
+          type="submit"
+          :disabled="loading || !user"
+          >Send Comment</md-button
+        >
+      </form>
+
       <!-- Back Button -->
       <md-button
         class="md-fixed md-fab-bottom-right md-fab md-primary"
@@ -36,7 +54,12 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid'
+
 export default {
+  data: () => ({
+    text: ''
+  }),
   async fetch({ store, params }) {
     await store.dispatch('loadHeadline', params.slug)
   },
@@ -49,6 +72,24 @@ export default {
     },
     user() {
       return this.$store.getters.user
+    }
+  },
+  methods: {
+    async sendComment() {
+      const comment = {
+        id: uuidv4(),
+        text: this.text,
+        user: this.getCommentUserData(),
+        publishedAt: Date.now(),
+        likes: 0
+      }
+      await this.$store.dispatch('sendComment', comment)
+      this.text = ''
+    },
+    getCommentUserData() {
+      const commentUserData = { ...this.user }
+      commentUserData['username'] = commentUserData['email'].split('@')[0]
+      return commentUserData
     }
   }
 }
