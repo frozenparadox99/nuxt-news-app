@@ -7,6 +7,7 @@ const createStore = () => {
   return new Vuex.Store({
     state: {
       headlines: [],
+      feed: [],
       user: null,
       category: '',
       loading: false,
@@ -29,6 +30,9 @@ const createStore = () => {
       setCountry(state, country) {
         state.country = country
       },
+      setFeed(state, headlines) {
+        state.feed = headlines
+      },
       setToken(state, token) {
         state.token = token
       },
@@ -41,6 +45,31 @@ const createStore = () => {
         const { articles } = await this.$axios.$get(apiUrl)
         commit('setLoading', false)
         commit('setHeadlines', articles)
+      },
+      async addHeadlineToFeed({ state }, headline) {
+        const feedRef = db
+          .collection(`users/${state.user.email}/feed`)
+          .doc(headline.title)
+
+        await feedRef.set(headline)
+      },
+      async loadUserFeed({ state, commit }) {
+        if (state.user) {
+          const feedRef = db.collection(`users/${state.user.email}/feed`)
+
+          await feedRef.onSnapshot(querySnapshot => {
+            let headlines = []
+            querySnapshot.forEach(doc => {
+              headlines.push(doc.data())
+              commit('setFeed', headlines)
+            })
+
+            if (querySnapshot.empty) {
+              headlines = []
+              commit('setFeed', headlines)
+            }
+          })
+        }
       },
       async authenticateUser({ commit }, userPayload) {
         try {
@@ -90,6 +119,7 @@ const createStore = () => {
     getters: {
       headlines: state => state.headlines,
       loading: state => state.loading,
+      feed: state => state.feed,
       user: state => state.user,
       category: state => state.category,
       country: state => state.country,
