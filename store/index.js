@@ -134,6 +134,38 @@ const createStore = () => {
           })
         commit('setLoading', false)
       },
+      async likeComment({ state, commit }, commentId) {
+        const commentsRef = db
+          .collection(`headlines/${state.headline.slug}/comments`)
+          .orderBy('likes', 'desc')
+        const likedCommentRef = db
+          .collection('headlines')
+          .doc(state.headline.slug)
+          .collection('comments')
+          .doc(commentId)
+
+        await likedCommentRef.get().then(doc => {
+          if (doc.exists) {
+            const prevLikes = doc.data().likes
+            const currentLikes = prevLikes + 1
+            likedCommentRef.update({
+              likes: currentLikes
+            })
+          }
+        })
+
+        await commentsRef.onSnapshot(querySnapshot => {
+          let loadedComments = []
+          querySnapshot.forEach(doc => {
+            loadedComments.push(doc.data())
+            const updatedHeadline = {
+              ...state.headline,
+              comments: loadedComments
+            }
+            commit('setHeadline', updatedHeadline)
+          })
+        })
+      },
       async saveHeadline(context, headline) {
         const headlineRef = db.collection('headlines').doc(headline.slug)
 

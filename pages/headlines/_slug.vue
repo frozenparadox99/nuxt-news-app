@@ -59,7 +59,11 @@
             md-position="bottom"
             :md-content="comment.likes"
           />
-          <md-button class="md-icon-button" :disabled="loading || !user">
+          <md-button
+            @click="likeComment(comment.id)"
+            class="md-icon-button"
+            :disabled="loading || !user"
+          >
             <md-icon>thumb_up</md-icon>
           </md-button>
         </md-list-item>
@@ -108,6 +112,9 @@ export default {
       }
       await this.$store.dispatch('sendComment', comment)
       this.text = ''
+    },
+    async likeComment(commentId) {
+      await this.$store.dispatch('likeComment', commentId)
     },
     getCommentUserData() {
       const commentUserData = { ...this.user }
