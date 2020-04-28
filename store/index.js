@@ -8,6 +8,7 @@ const createStore = () => {
   return new Vuex.Store({
     state: {
       headlines: [],
+      headline: null,
       feed: [],
       user: null,
       category: '',
@@ -18,6 +19,9 @@ const createStore = () => {
     mutations: {
       setHeadlines(state, headlines) {
         state.headlines = headlines
+      },
+      setHeadline(state, headline) {
+        state.headline = headline
       },
       setLoading(state, loading) {
         state.loading = loading
@@ -84,6 +88,31 @@ const createStore = () => {
             }
           })
         }
+      },
+      async loadHeadline({ commit }, headlineSlug) {
+        const headlineRef = db.collection('headlines').doc(headlineSlug)
+        const commentsRef = db
+          .collection(`headlines/${headlineSlug}/comments`)
+          .orderBy('likes', 'desc')
+
+        let loadedHeadline = {}
+        await headlineRef.get().then(async doc => {
+          if (doc.exists) {
+            loadedHeadline = doc.data()
+
+            await commentsRef.get().then(querySnapshot => {
+              if (querySnapshot.empty) {
+                commit('setHeadline', loadedHeadline)
+              }
+              let loadedComments = []
+              querySnapshot.forEach(doc => {
+                loadedComments.push(doc.data())
+                loadedHeadline['comments'] = loadedComments
+                commit('setHeadline', loadedHeadline)
+              })
+            })
+          }
+        })
       },
       async saveHeadline(context, headline) {
         const headlineRef = db.collection('headlines').doc(headline.slug)
@@ -153,6 +182,7 @@ const createStore = () => {
     },
     getters: {
       headlines: state => state.headlines,
+      headline: state => state.headline,
       loading: state => state.loading,
       feed: state => state.feed,
       user: state => state.user,
