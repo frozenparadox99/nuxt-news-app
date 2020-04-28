@@ -92,7 +92,10 @@
             <span>View Comments</span>
           </div>
 
-          <md-button class="md-icon-button md-list-action">
+          <md-button
+            @click="removeHeadlineFromFeed(headline)"
+            class="md-icon-button md-list-action"
+          >
             <md-icon class="md-accent">delete</md-icon>
           </md-button>
         </md-list-item>
@@ -249,6 +252,9 @@ export default {
       if (this.user) {
         await this.$store.dispatch('addHeadlineToFeed', headline)
       }
+    },
+    async removeHeadlineFromFeed(headline) {
+      await this.$store.dispatch('removeHeadlineFromFeed', headline)
     },
     changeCountry(country) {
       this.$store.commit('setCountry', country)

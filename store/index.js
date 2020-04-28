@@ -37,7 +37,8 @@ const createStore = () => {
         state.token = token
       },
       clearToken: state => (state.token = ''),
-      clearUser: state => (state.user = null)
+      clearUser: state => (state.user = null),
+      clearFeed: state => (state.feed = [])
     },
     actions: {
       async loadHeadlines({ commit }, apiUrl) {
@@ -70,6 +71,13 @@ const createStore = () => {
             }
           })
         }
+      },
+      async removeHeadlineFromFeed({ state }, headline) {
+        const headlineRef = db
+          .collection(`users/${state.user.email}/feed`)
+          .doc(headline.title)
+
+        await headlineRef.delete()
       },
       async authenticateUser({ commit }, userPayload) {
         try {
@@ -112,7 +120,7 @@ const createStore = () => {
       logoutUser({ commit }) {
         commit('clearToken')
         commit('clearUser')
-        // commit("clearFeed");
+        commit('clearFeed')
         clearUserData()
       }
     },
