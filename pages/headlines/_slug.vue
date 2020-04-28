@@ -42,6 +42,29 @@
         >
       </form>
 
+      <!-- Comments -->
+      <md-list class="md-triple-line" style="margin-top: 1em">
+        <md-list-item v-for="comment in headline.comments" :key="comment.id">
+          <md-avatar
+            ><img :src="comment.user.avatar" :alt="comment.user.username"
+          /></md-avatar>
+          <div class="md-list-item-text">
+            <span>{{ comment.user.username }}</span>
+            <span>{{ comment.publishedAt | commentTimeToNow }}</span>
+            <p>{{ comment.text }}</p>
+          </div>
+
+          <md-badge
+            class="md-primary"
+            md-position="bottom"
+            :md-content="comment.likes"
+          />
+          <md-button class="md-icon-button" :disabled="loading || !user">
+            <md-icon>thumb_up</md-icon>
+          </md-button>
+        </md-list-item>
+      </md-list>
+
       <!-- Back Button -->
       <md-button
         class="md-fixed md-fab-bottom-right md-fab md-primary"
