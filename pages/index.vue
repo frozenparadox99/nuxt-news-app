@@ -130,7 +130,7 @@
               <a :href="headline.url" target="_blank">{{ headline.title }}</a>
             </span>
             <span>{{ headline.source.name }}</span>
-            <span>View Comments</span>
+            <span @click="saveHeadline(headline)">View Comments</span>
           </div>
 
           <md-button
