@@ -1,6 +1,20 @@
 # nuxt-news
 
-> A news app built with nuxt.js and firebase
+> A news app built with nuxt.js and firebase 
+
+### Functionality
+
+- Allows you to bookmark headlines
+- Add comments, likes
+- Query based on search parameters like date, matches, sort by popularity etc
+- Select the category as well as country
+
+<a href="https://imgur.com/WYLXh5r"><img src="https://i.imgur.com/WYLXh5r.png" title="source: imgur.com" /></a>
+<a href="https://imgur.com/bJs97MS"><img src="https://i.imgur.com/bJs97MS.png" title="source: imgur.com" /></a>
+<a href="https://imgur.com/cnoQxxV"><img src="https://i.imgur.com/cnoQxxV.png" title="source: imgur.com" /></a>
+<a href="https://imgur.com/5XGMTCX"><img src="https://i.imgur.com/5XGMTCX.png" title="source: imgur.com" /></a>
+
+
 
 ## Build Setup
 
