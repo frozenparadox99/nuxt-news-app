@@ -14,7 +14,8 @@ const createStore = () => {
       category: '',
       loading: false,
       country: 'us',
-      token: ''
+      token: '',
+      source: ''
     },
     mutations: {
       setHeadlines(state, headlines) {
@@ -37,6 +38,9 @@ const createStore = () => {
       },
       setFeed(state, headlines) {
         state.feed = headlines
+      },
+      setSource(state, source) {
+        state.source = source
       },
       setToken(state, token) {
         state.token = token
@@ -240,7 +244,8 @@ const createStore = () => {
       user: state => state.user,
       category: state => state.category,
       country: state => state.country,
-      isAuthenticated: state => !!state.token
+      isAuthenticated: state => !!state.token,
+      source: state => state.source
     }
   })
 }

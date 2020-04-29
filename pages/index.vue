@@ -151,7 +151,7 @@
                     headline.title
                   }}</a>
                 </div>
-                <div>
+                <div @click="loadSource(headline.source.id)">
                   {{ headline.source.name }}
                   <md-icon class="small-icon">book</md-icon>
                 </div>
@@ -230,6 +230,9 @@ export default {
     category() {
       return this.$store.getters.category
     },
+    source() {
+      return this.$store.getters.source
+    },
     loading() {
       return this.$store.getters.loading
     },
@@ -250,6 +253,15 @@ export default {
         'loadHeadlines',
         `/api/top-headlines?country=${this.country}&category=${this.category}`
       )
+    },
+    async loadSource(sourceId) {
+      if (sourceId) {
+        this.$store.commit('setSource', sourceId)
+        await this.$store.dispatch(
+          'loadHeadlines',
+          `/api/top-headlines?sources=${this.source}`
+        )
+      }
     },
     async addHeadlineToFeed(headline) {
       if (this.user) {
