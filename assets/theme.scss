@@ -10,3 +10,15 @@
 );
 
 @import '~vue-material/dist/theme/all';
+
+/* Page Transitions */
+.page-enter,
+.page-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.25s;
+}
